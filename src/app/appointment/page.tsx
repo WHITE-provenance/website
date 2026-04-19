@@ -3,9 +3,11 @@
 import { FormEvent, useState } from "react";
 import { SectionHeader } from "@/components/section-header";
 import { SiteShell } from "@/components/site-shell";
+import { submitAppointment } from "@/lib/appointments";
+import { clinicInfo } from "@/lib/site-content";
 
 export default function AppointmentPage() {
-  const [status, setStatus] = useState<string>("");
+  const [status, setStatus] = useState<{ kind: "ok" | "error"; message: string } | null>(null);
 
   async function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -18,26 +20,36 @@ export default function AppointmentPage() {
       sourcePage: "/appointment",
     };
 
-    const response = await fetch("/api/appointments", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload),
-    });
+    try {
+      const submitted = await submitAppointment(payload);
+      if (!submitted) {
+        setStatus({
+          kind: "error",
+          message:
+            "Онлайн-отправка временно недоступна. Позвоните нам или напишите на email, и мы запишем вас вручную.",
+        });
+        return;
+      }
 
-    if (!response.ok) {
-      setStatus("Не удалось отправить заявку. Попробуйте позже.");
-      return;
+      setStatus({
+        kind: "ok",
+        message: "Заявка отправлена. Мы свяжемся с вами в ближайшее время.",
+      });
+      event.currentTarget.reset();
+    } catch {
+      setStatus({
+        kind: "error",
+        message:
+          "Не удалось отправить заявку. Позвоните нам или напишите на email, и мы оформим запись вручную.",
+      });
     }
-
-    setStatus("Заявка отправлена. Мы свяжемся с вами в ближайшее время.");
-    event.currentTarget.reset();
   }
 
   return (
     <SiteShell>
       <SectionHeader
         title="Запись на прием"
-        subtitle="MVP-форма подключена к серверному endpoint. На следующем шаге подключаем CRM/webhook и антиспам."
+        subtitle="Форма отправляет заявку во внешний relay/webhook для статического деплоя на GitHub Pages."
       />
       <form onSubmit={onSubmit} className="grid gap-4 rounded-xl bg-white p-6 ring-1 ring-[var(--line)]">
         <label className="grid gap-1 text-sm">
@@ -74,7 +86,23 @@ export default function AppointmentPage() {
           Отправить заявку
         </button>
 
-        {status ? <p className="text-sm text-slate-700">{status}</p> : null}
+        {status ? (
+          <p className={`text-sm ${status.kind === "ok" ? "text-emerald-700" : "text-amber-700"}`}>
+            {status.message}
+            {status.kind === "error" ? (
+              <>
+                {" "}
+                <a href={`tel:${clinicInfo.phone.replace(/[^\d+]/g, "")}`} className="underline">
+                  {clinicInfo.phone}
+                </a>
+                {" · "}
+                <a href={`mailto:${clinicInfo.email}`} className="underline">
+                  {clinicInfo.email}
+                </a>
+              </>
+            ) : null}
+          </p>
+        ) : null}
       </form>
     </SiteShell>
   );

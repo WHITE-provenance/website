@@ -9,8 +9,8 @@ Related: [WHI-20](/issues/WHI-20)
 - Content management: Storyblok (recommended for marketing/editor flows) with fallback plan to Sanity if complex relational content appears during migration.
 - Rendering strategy:
   - marketing pages: SSG + ISR for SEO and performance;
-  - contact/appointment actions: server handlers (`/api/appointments`) with runtime environment configuration.
-- Deployment target: Vercel or equivalent edge-capable platform.
+  - contact/appointment actions: client-side post to external relay/webhook (`NEXT_PUBLIC_APPOINTMENT_ENDPOINT`) with explicit fallback UX when relay is unavailable.
+- Deployment target: GitHub Pages static export (`output: export`) with external relay integration for conversion forms.
 
 ## 2) Information architecture (MVP)
 
@@ -37,9 +37,9 @@ Core entities:
 
 ## 4) Appointment integration approach
 
-- Public form posts into `/api/appointments`.
-- Server validates payload, adds metadata (`sourcePage`, `createdAt`, `userAgent`), and sends to `APPOINTMENT_WEBHOOK_URL`.
-- If webhook is absent, endpoint returns success with explicit `queued: false` to keep UX non-blocking in early environments.
+- Public form posts directly to external relay/webhook URL from `NEXT_PUBLIC_APPOINTMENT_ENDPOINT`.
+- Relay ownership and validation live outside this repository (required for static hosting).
+- If relay URL is absent/invalid or request fails, UI shows explicit fallback conversion path (phone/email) instead of depending on in-repo server APIs.
 
 ## 5) Delivery phases and acceptance criteria
 
@@ -56,8 +56,8 @@ Core entities:
 - Acceptance: migrated core content blocks + SEO tags + schema.org basics.
 
 4. Appointment and conversion
-- Form UX, validation, API integration to CRM/webhook, anti-spam basics.
-- Acceptance: successful submission path is observable end-to-end.
+- Form UX, validation, external relay integration to CRM/webhook, anti-spam basics in relay layer.
+- Acceptance: successful relay submission path is observable end-to-end, with fallback conversion path for relay downtime/misconfiguration.
 
 5. Performance and launch readiness
 - image optimization, caching, Lighthouse pass, redirects from old URLs.
@@ -82,4 +82,4 @@ Mitigations:
 - Next.js project initialized in workspace.
 - Route skeleton for all core sections implemented.
 - Typed seed content model implemented.
-- First appointment API endpoint implemented with environment-based webhook transport.
+- Static-safe appointment client integration implemented via external relay contract.

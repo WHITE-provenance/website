@@ -7,7 +7,7 @@
 - Next.js (App Router)
 - TypeScript
 - Tailwind CSS
-- API endpoint for appointment requests (`/api/appointments`)
+- Static-safe appointment submission via external relay endpoint
 
 Технический план и этапы: `docs/technical-plan.md`.
 
@@ -22,10 +22,10 @@ npm run dev
 
 ## Environment
 
-For appointment forwarding:
+For appointment forwarding from a static GitHub Pages build:
 
 ```bash
-APPOINTMENT_WEBHOOK_URL=https://example.com/clinic/webhook
+NEXT_PUBLIC_APPOINTMENT_ENDPOINT=https://example.com/clinic/webhook
 ```
 
-If `APPOINTMENT_WEBHOOK_URL` is not set, appointment endpoint returns successful non-forwarded response (`queued: false`) for local/dev scenarios.
+If `NEXT_PUBLIC_APPOINTMENT_ENDPOINT` is not set (or invalid), the form shows a user-visible fallback path with phone/email contact details.

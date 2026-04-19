@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "build:pages": "bash -lc 'if [ -d src/app/api ]; then echo \"GitHub Pages static export cannot include src/app/api; move appointment relay to an external backend first.\"; exit 1; fi; PAGES_EXPORT=true npm exec -- next build'",
     "start": "next start",
     "lint": "eslint"
   },
