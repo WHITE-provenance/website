@@ -42,10 +42,9 @@ jobs:
           NEXT_PUBLIC_APPOINTMENT_ENDPOINT: ${{ vars.NEXT_PUBLIC_APPOINTMENT_ENDPOINT }}
         run: |
           if [ -z "${NEXT_PUBLIC_APPOINTMENT_ENDPOINT}" ]; then
-            echo "Repository variable NEXT_PUBLIC_APPOINTMENT_ENDPOINT is required for production appointment delivery."
-            exit 1
-          fi
-          if [[ "${NEXT_PUBLIC_APPOINTMENT_ENDPOINT}" != https://* ]]; then
+            echo "NEXT_PUBLIC_APPOINTMENT_ENDPOINT is not set. Deployment will proceed with contact fallback UX on the appointment form."
+            exit 0
+          elif [[ "${NEXT_PUBLIC_APPOINTMENT_ENDPOINT}" != https://* ]]; then
             echo "NEXT_PUBLIC_APPOINTMENT_ENDPOINT must use https in production."
             exit 1
           fi
