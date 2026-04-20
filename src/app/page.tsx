@@ -26,7 +26,7 @@ export default function HomePage() {
       <JsonLd data={buildBreadcrumbJsonLd([{ name: "Главная", path: "/" }])} />
       <div className="container page">
         <section className="hero">
-          <p className="eyebrow">Премиальная стоматология</p>
+          <p className="eyebrow">Стоматология нового поколения</p>
           <h1>Стоматология WHITE provenance в Новосибирске</h1>
           <p className="lead">
             Диагностика, лечение и восстановление зубов с понятным планом, сроками и стоимостью.
