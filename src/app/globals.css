@@ -1,15 +1,15 @@
-@import url("https://fonts.googleapis.com/css2?family=Prata&family=Manrope:wght@400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap");
 @import "tailwindcss";
 
 :root {
-  --ink: #ece9e1;
-  --paper: #151515;
-  --paper-soft: #1e1e1e;
-  --line: #3a3a3a;
-  --line-soft: #2a2a2a;
-  --muted: #b8b2a5;
-  --gold: #c4a267;
-  --gold-soft: #ead7b0;
+  --ink: #f2f2f2;
+  --paper: #0b0b0b;
+  --paper-soft: #141414;
+  --line: #303030;
+  --line-soft: #242424;
+  --muted: #aaaaaa;
+  --accent: #d6d6d6;
+  --accent-soft: #f5f5f5;
   --radius-lg: 1.5rem;
   --radius-md: 1rem;
 }
@@ -17,7 +17,7 @@
 @theme inline {
   --color-background: var(--paper);
   --color-foreground: var(--ink);
-  --font-sans: "Manrope", sans-serif;
+  --font-sans: "Montserrat", sans-serif;
 }
 
 * {
@@ -33,11 +33,11 @@ body {
 body {
   min-height: 100%;
   background:
-    radial-gradient(circle at 15% 20%, rgba(196, 162, 103, 0.2), transparent 38%),
+    radial-gradient(circle at 15% 20%, rgba(255, 255, 255, 0.08), transparent 38%),
     radial-gradient(circle at 85% 10%, rgba(255, 255, 255, 0.08), transparent 35%),
-    linear-gradient(180deg, #121212 0%, #171717 45%, #121212 100%);
+    linear-gradient(180deg, #090909 0%, #141414 45%, #090909 100%);
   color: var(--ink);
-  font-family: "Manrope", sans-serif;
+  font-family: "Montserrat", sans-serif;
   line-height: 1.5;
 }
 
@@ -97,7 +97,8 @@ a {
 }
 
 .brand-main {
-  font-family: "Prata", serif;
+  font-family: "Montserrat", sans-serif;
+  font-weight: 700;
   letter-spacing: 0.14em;
   font-size: 1rem;
 }
@@ -115,11 +116,11 @@ a {
 }
 
 .desktop-nav a {
-  color: #e4dfd2;
+  color: #e8e8e8;
 }
 
 .desktop-nav a:hover {
-  color: var(--gold-soft);
+  color: var(--accent-soft);
 }
 
 .button {
@@ -140,13 +141,13 @@ a {
 }
 
 .button-gold {
-  background: linear-gradient(140deg, #c4a267 0%, #ddc08a 100%);
-  color: #1f1c16;
+  background: linear-gradient(140deg, #f2f2f2 0%, #cccccc 100%);
+  color: #101010;
 }
 
 .button-gold:hover {
   transform: translateY(-1px);
-  box-shadow: 0 10px 22px rgba(196, 162, 103, 0.3);
+  box-shadow: 0 10px 22px rgba(255, 255, 255, 0.2);
 }
 
 .button-light {
@@ -156,8 +157,8 @@ a {
 }
 
 .button-light:hover {
-  border-color: var(--gold);
-  color: var(--gold-soft);
+  border-color: var(--accent);
+  color: var(--accent-soft);
 }
 
 .desktop-cta {
@@ -176,8 +177,8 @@ a {
   border: 1px solid var(--line);
   border-radius: var(--radius-lg);
   background:
-    linear-gradient(125deg, rgba(196, 162, 103, 0.18) 0%, rgba(21, 21, 21, 0.95) 40%),
-    linear-gradient(180deg, #1f1f1f 0%, #141414 100%);
+    linear-gradient(125deg, rgba(255, 255, 255, 0.08) 0%, rgba(21, 21, 21, 0.95) 40%),
+    linear-gradient(180deg, #1d1d1d 0%, #121212 100%);
   padding: 2.75rem;
   box-shadow: 0 30px 55px rgba(0, 0, 0, 0.32);
 }
@@ -186,7 +187,7 @@ a {
   font-size: 0.76rem;
   text-transform: uppercase;
   letter-spacing: 0.2em;
-  color: var(--gold-soft);
+  color: var(--accent-soft);
   margin: 0;
 }
 
@@ -194,7 +195,9 @@ h1,
 h2,
 h3 {
   margin: 0;
-  font-family: "Prata", serif;
+  font-family: "Montserrat", sans-serif;
+  font-weight: 700;
+  letter-spacing: 0.01em;
   line-height: 1.2;
 }
 
@@ -207,7 +210,7 @@ h1 {
 .lead {
   margin-top: 1rem;
   max-width: 60ch;
-  color: #d6d0c5;
+  color: #d7d7d7;
 }
 
 .actions {
@@ -226,9 +229,9 @@ h1 {
 }
 
 .trust-list li {
-  border-left: 3px solid rgba(196, 162, 103, 0.65);
+  border-left: 3px solid rgba(235, 235, 235, 0.45);
   padding-left: 0.75rem;
-  color: #d8d1c4;
+  color: #dbdbdb;
 }
 
 .grid-3 {
@@ -254,7 +257,7 @@ h1 {
 
 .card p {
   margin: 0.6rem 0 0;
-  color: #c9c3b6;
+  color: #c8c8c8;
 }
 
 .section {
@@ -262,7 +265,7 @@ h1 {
 }
 
 .section p {
-  color: #cfc8bc;
+  color: #d0d0d0;
 }
 
 .section-title {
@@ -282,7 +285,7 @@ h1 {
 }
 
 .proof-band-primary .proof-item {
-  background: linear-gradient(160deg, rgba(196, 162, 103, 0.16), rgba(17, 17, 17, 0.9));
+  background: linear-gradient(160deg, rgba(255, 255, 255, 0.08), rgba(17, 17, 17, 0.9));
 }
 
 .proof-item {
@@ -301,8 +304,9 @@ h1 {
 .proof-value {
   margin: 0;
   font-size: 2rem;
-  font-family: "Prata", serif;
-  color: var(--gold-soft);
+  font-family: "Montserrat", sans-serif;
+  font-weight: 800;
+  color: var(--accent-soft);
 }
 
 .proof-item p {
@@ -315,7 +319,7 @@ h1 {
 }
 
 .conversion-panel {
-  background: linear-gradient(140deg, rgba(196, 162, 103, 0.2), rgba(20, 20, 20, 0.95));
+  background: linear-gradient(140deg, rgba(255, 255, 255, 0.1), rgba(20, 20, 20, 0.95));
 }
 
 .conversion-panel > .section-title {
@@ -346,7 +350,7 @@ h1 {
 }
 
 .case-period {
-  color: var(--gold-soft);
+  color: var(--accent-soft);
   font-weight: 600;
 }
 
@@ -391,18 +395,18 @@ h1 {
   margin: 1rem 0 0;
   font-size: 1.18rem;
   line-height: 1.6;
-  color: #ebe5d8;
+  color: #ededed;
 }
 
 .quote-author {
-  color: #bbae94;
+  color: #afafaf;
 }
 
 .notice {
   margin-top: 1rem;
-  border-left: 3px solid var(--gold);
+  border-left: 3px solid var(--accent);
   padding: 0.3rem 0 0.3rem 0.85rem;
-  color: #d9d2c4;
+  color: #d8d8d8;
 }
 
 .notice-success {
@@ -450,11 +454,11 @@ h1 {
 .form-support-text {
   margin: 0;
   font-size: 0.9rem;
-  color: #d9d2c4;
+  color: #d8d8d8;
 }
 
 .form-support-text a {
-  color: var(--gold-soft);
+  color: var(--accent-soft);
 }
 
 .form-grid {
@@ -484,17 +488,17 @@ input,
 textarea {
   width: 100%;
   border-radius: 0.8rem;
-  border: 1px solid #524c40;
+  border: 1px solid #505050;
   background: #1a1a1a;
-  color: #f2eee4;
+  color: #f1f1f1;
   padding: 0.72rem 0.85rem;
   font: inherit;
 }
 
 input:focus,
 textarea:focus {
-  outline: 2px solid rgba(196, 162, 103, 0.45);
-  border-color: rgba(196, 162, 103, 0.85);
+  outline: 2px solid rgba(220, 220, 220, 0.45);
+  border-color: rgba(220, 220, 220, 0.85);
 }
 
 .doctor-grid {
@@ -515,15 +519,15 @@ textarea:focus {
 }
 
 .chip {
-  border: 1px solid #4f4639;
+  border: 1px solid #4e4e4e;
   border-radius: 999px;
   padding: 0.28rem 0.6rem;
   font-size: 0.76rem;
-  color: #dfd7c8;
+  color: #dbdbdb;
 }
 
 .price-card .price-value {
-  color: var(--gold-soft);
+  color: var(--accent-soft);
   font-weight: 700;
 }
 
@@ -538,23 +542,23 @@ textarea:focus {
   gap: 1.2rem;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   padding: 1.9rem 0;
-  color: #c8c1b4;
+  color: #c8c8c8;
 }
 
 .footer-title {
   margin: 0 0 0.35rem;
   font-weight: 700;
-  color: #f0eadf;
+  color: #efefef;
 }
 
 .footer-link {
-  color: var(--gold-soft);
+  color: var(--accent-soft);
   display: block;
   margin-top: 0.2rem;
 }
 
 .footer-link-muted {
-  color: #afa28a;
+  color: #a9a9a9;
 }
 
 @media (max-width: 960px) {
@@ -571,7 +575,7 @@ textarea:focus {
   .mobile-menu summary {
     list-style: none;
     cursor: pointer;
-    border: 1px solid #514b40;
+    border: 1px solid #505050;
     border-radius: 999px;
     padding: 0.55rem 0.95rem;
     font-size: 0.9rem;
@@ -596,12 +600,12 @@ textarea:focus {
 
   .mobile-contact {
     font-weight: 600;
-    color: #f0eadf;
+    color: #efefef;
   }
 
   .mobile-hours {
     margin: 0;
-    color: #b9b19f;
+    color: #b6b6b6;
     font-size: 0.85rem;
   }
 
