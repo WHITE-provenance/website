@@ -6,26 +6,46 @@ export type AppointmentPayload = {
 };
 
 const appointmentEndpoint = process.env.NEXT_PUBLIC_APPOINTMENT_ENDPOINT?.trim();
+const REQUEST_TIMEOUT_MS = 8000;
 
-function isAbsoluteHttpUrl(value: string): boolean {
+function isAllowedAppointmentEndpoint(value: string): boolean {
   try {
     const url = new URL(value);
-    return url.protocol === "https:" || url.protocol === "http:";
+    if (url.protocol === "https:") {
+      return true;
+    }
+
+    if (url.protocol !== "http:") {
+      return false;
+    }
+
+    return url.hostname === "localhost" || url.hostname === "127.0.0.1";
   } catch {
     return false;
   }
 }
 
 export async function submitAppointment(payload: AppointmentPayload): Promise<boolean> {
-  if (!appointmentEndpoint || !isAbsoluteHttpUrl(appointmentEndpoint)) {
+  if (!appointmentEndpoint || !isAllowedAppointmentEndpoint(appointmentEndpoint)) {
     return false;
   }
 
-  const response = await fetch(appointmentEndpoint, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(payload),
-  });
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), REQUEST_TIMEOUT_MS);
 
-  return response.ok;
+  try {
+    const response = await fetch(appointmentEndpoint, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+      cache: "no-store",
+      signal: controller.signal,
+    });
+
+    return response.ok;
+  } catch {
+    return false;
+  } finally {
+    clearTimeout(timeout);
+  }
 }

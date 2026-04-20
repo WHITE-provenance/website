@@ -1,20 +1,33 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin", "cyrillic"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+import { JsonLd } from "@/components/json-ld";
+import { brandLine, clinicInfo } from "@/lib/site-content";
+import { buildClinicJsonLd, metadataBase } from "@/lib/seo";
 
 export const metadata: Metadata = {
-  title: "WHITE provenance",
-  description: "Современный сайт стоматологической клиники WHITE provenance",
+  metadataBase,
+  title: "WHITE provenance — стоматология в Новосибирске",
+  description:
+    "Стоматология WHITE provenance: диагностика, лечение и восстановление зубов с прозрачным планом лечения.",
+  alternates: {
+    canonical: "/",
+  },
+  openGraph: {
+    title: "WHITE provenance — стоматология в Новосибирске",
+    description: brandLine,
+    siteName: clinicInfo.name,
+    locale: "ru_RU",
+    type: "website",
+    url: "/",
+    images: [
+      {
+        url: "/favicon.ico",
+        width: 512,
+        height: 512,
+        alt: "WHITE provenance — стоматология в Новосибирске",
+      },
+    ],
+  },
 };
 
 export default function RootLayout({
@@ -23,8 +36,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ru" className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-      <body>{children}</body>
+    <html lang="ru">
+      <body>
+        <JsonLd data={buildClinicJsonLd()} />
+        {children}
+      </body>
     </html>
   );
 }

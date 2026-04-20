@@ -28,4 +28,12 @@ For appointment forwarding from a static GitHub Pages build:
 NEXT_PUBLIC_APPOINTMENT_ENDPOINT=https://example.com/clinic/webhook
 ```
 
+Production deploys require `NEXT_PUBLIC_APPOINTMENT_ENDPOINT` as a repository variable in GitHub Actions (`Settings -> Secrets and variables -> Actions -> Variables`).
+
 If `NEXT_PUBLIC_APPOINTMENT_ENDPOINT` is not set (or invalid), the form shows a user-visible fallback path with phone/email contact details.
+
+## Operations
+
+- DNS cutover + webhook hardening runbook: `docs/operations/whi-42-dns-cutover-webhook-hardening.md`
+- Post-cutover verification script: `scripts/ops/verify-cutover.sh`
+- Webhook synthetic smoke script: `scripts/ops/smoke-appointment-webhook.sh`

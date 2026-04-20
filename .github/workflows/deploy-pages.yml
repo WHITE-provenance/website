@@ -37,10 +37,24 @@ jobs:
         id: pages
         uses: actions/configure-pages@v5
 
+      - name: Validate production appointment endpoint
+        env:
+          NEXT_PUBLIC_APPOINTMENT_ENDPOINT: ${{ vars.NEXT_PUBLIC_APPOINTMENT_ENDPOINT }}
+        run: |
+          if [ -z "${NEXT_PUBLIC_APPOINTMENT_ENDPOINT}" ]; then
+            echo "Repository variable NEXT_PUBLIC_APPOINTMENT_ENDPOINT is required for production appointment delivery."
+            exit 1
+          fi
+          if [[ "${NEXT_PUBLIC_APPOINTMENT_ENDPOINT}" != https://* ]]; then
+            echo "NEXT_PUBLIC_APPOINTMENT_ENDPOINT must use https in production."
+            exit 1
+          fi
+
       - name: Build static export
         run: npm run build:pages
         env:
           PAGES_BASE_PATH: ${{ steps.pages.outputs.base_path }}
+          NEXT_PUBLIC_APPOINTMENT_ENDPOINT: ${{ vars.NEXT_PUBLIC_APPOINTMENT_ENDPOINT }}
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3

@@ -1,49 +1,176 @@
 import Link from "next/link";
-import { SectionHeader } from "@/components/section-header";
+import { JsonLd } from "@/components/json-ld";
 import { SiteShell } from "@/components/site-shell";
-import { offers, services } from "@/lib/site-content";
+import {
+  careJourneySteps,
+  clinicInfo,
+  doctors,
+  homeTrustBullets,
+  primaryProofSignals,
+  proofMetrics,
+  responsePromise,
+  treatmentCases,
+} from "@/lib/site-content";
+import { buildBreadcrumbJsonLd, createRouteMetadata } from "@/lib/seo";
 
-export default function Home() {
+export const metadata = createRouteMetadata({
+  title: "Стоматология в Новосибирске — WHITE provenance",
+  description:
+    "Лечение зубов, диагностика и имплантация в Новосибирске. Прозрачный план лечения, понятная стоимость и запись на консультацию онлайн.",
+  pathname: "/",
+});
+
+export default function HomePage() {
   return (
     <SiteShell>
-      <section className="grid gap-6 rounded-2xl bg-white p-8 shadow-sm ring-1 ring-[var(--line)]">
-        <SectionHeader
-          title="Стоматология WHITE provenance"
-          subtitle="Технический старт новой версии сайта: структура контента, маршруты и запись на прием готовы для дальнейшего UX и CMS наполнения."
-        />
-        <div className="flex flex-wrap gap-3">
-          <Link
-            href="/appointment"
-            className="rounded-full bg-[var(--accent)] px-5 py-2 text-sm font-medium text-white"
-          >
-            Записаться
-          </Link>
-          <Link href="/services" className="rounded-full border border-[var(--line)] px-5 py-2 text-sm">
-            Смотреть услуги
-          </Link>
-        </div>
-      </section>
+      <JsonLd data={buildBreadcrumbJsonLd([{ name: "Главная", path: "/" }])} />
+      <div className="container page">
+        <section className="hero">
+          <p className="eyebrow">Премиальная стоматология</p>
+          <h1>Стоматология WHITE provenance в Новосибирске</h1>
+          <p className="lead">
+            Диагностика, лечение и восстановление зубов с понятным планом, сроками и стоимостью.
+            На первом приеме объясняем каждый этап и согласовываем клиническую тактику.
+          </p>
+          <div className="actions">
+            <Link href="/appointment" className="button button-gold">
+              Записаться на консультацию
+            </Link>
+            <Link href="/prices" className="button button-light">
+              Посмотреть цены
+            </Link>
+          </div>
+          <ul className="trust-list" aria-label="Почему нам доверяют">
+            {homeTrustBullets.map((item) => (
+              <li key={item}>{item}</li>
+            ))}
+          </ul>
+          <p className="notice">{responsePromise}</p>
+        </section>
 
-      <section className="mt-10 grid gap-4 md:grid-cols-3">
-        {services.map((service) => (
-          <article key={service.id} className="rounded-xl bg-white p-5 ring-1 ring-[var(--line)]">
-            <h2 className="text-lg font-semibold">{service.title}</h2>
-            <p className="mt-2 text-sm text-slate-600">{service.summary}</p>
-          </article>
-        ))}
-      </section>
-
-      <section className="mt-10 rounded-2xl bg-white p-8 ring-1 ring-[var(--line)]">
-        <h2 className="text-2xl font-semibold tracking-tight">Актуальные предложения</h2>
-        <div className="mt-4 grid gap-4 md:grid-cols-2">
-          {offers.map((offer) => (
-            <article key={offer.id} className="rounded-xl border border-[var(--line)] p-4">
-              <h3 className="font-medium">{offer.title}</h3>
-              <p className="mt-2 text-sm text-slate-600">{offer.description}</p>
+        <section className="section proof-band proof-band-primary" aria-label="Ключевые клинические подтверждения">
+          {primaryProofSignals.map((signal) => (
+            <article key={signal.title} className="proof-item">
+              <p className="eyebrow">Доказательная база</p>
+              <h2>{signal.title}</h2>
+              <p>{signal.summary}</p>
+              <p>{signal.evidence}</p>
             </article>
           ))}
-        </div>
-      </section>
+        </section>
+
+        <section className="section split-section">
+          <div>
+            <p className="eyebrow">Клинические кейсы</p>
+            <h2 className="section-title">Результаты, которые можно проверить по этапам лечения</h2>
+            <p>
+              Показываем не только итог, но и логику лечения: с чем пришел пациент, какие решения
+              приняла команда и какой клинический результат получили.
+            </p>
+            <div className="actions">
+              <Link href="/about" className="button button-light">
+                Подход и стандарты клиники
+              </Link>
+              <Link href="/appointment" className="button button-gold">
+                Обсудить похожий случай
+              </Link>
+            </div>
+          </div>
+          <div className="case-list">
+            {treatmentCases.map((caseItem) => (
+              <article key={caseItem.id} className="case-card">
+                <h3>{caseItem.title}</h3>
+                <p>
+                  <strong>Врач:</strong> {caseItem.clinician}
+                </p>
+                <p>
+                  <strong>Запрос:</strong> {caseItem.request}
+                </p>
+                <p>
+                  <strong>Тактика:</strong> {caseItem.treatment}
+                </p>
+                <p>
+                  <strong>Результат:</strong> {caseItem.outcome}
+                </p>
+                <p className="case-period">Срок: {caseItem.period}</p>
+              </article>
+            ))}
+          </div>
+        </section>
+
+        <section className="section proof-support" aria-label="Поддерживающие операционные показатели">
+          <p className="eyebrow">Поддерживающие показатели</p>
+          <h2 className="section-title">Операционные метрики подтверждают стабильность маршрута</h2>
+          <div className="proof-band">
+            {proofMetrics.map((metric) => (
+              <article key={metric.label} className="proof-item">
+                <p className="proof-value">{metric.value}</p>
+                <h3>{metric.label}</h3>
+                <p>{metric.note}</p>
+              </article>
+            ))}
+          </div>
+        </section>
+
+        <section className="section mixed-layout">
+          <article className="card timeline-card">
+            <h2 className="section-title">Как проходит лечение</h2>
+            <ol className="journey-list">
+              {careJourneySteps.map((step) => (
+                <li key={step.title}>
+                  <h3>{step.title}</h3>
+                  <p>{step.description}</p>
+                </li>
+              ))}
+            </ol>
+          </article>
+          <aside className="card team-callout">
+            <h2>Команда под один клинический маршрут</h2>
+            <p>
+              Врачи разных специализаций работают по единым протоколам, чтобы решения не
+              противоречили друг другу.
+            </p>
+            <div className="stacked-list">
+              {doctors.map((doctor) => (
+                <p key={doctor.id}>
+                  <strong>{doctor.name}</strong> · {doctor.role}
+                </p>
+              ))}
+            </div>
+            <Link href="/team" className="button button-light">
+              Посмотреть команду
+            </Link>
+          </aside>
+        </section>
+
+        <section className="section card conversion-panel" aria-label="Запись на консультацию">
+          <p className="eyebrow">Следующий шаг</p>
+          <h2 className="section-title">Запишитесь на консультацию и получите прозрачный план лечения</h2>
+          <p>
+            На первом визите определяем приоритеты, объясняем этапность и фиксируем понятный план
+            по срокам и бюджету.
+          </p>
+          <div className="actions">
+            <Link href="/appointment" className="button button-gold">
+              Записаться на консультацию
+            </Link>
+            <a href={`tel:${clinicInfo.phone.replace(/[^\d+]/g, "")}`} className="button button-light">
+              Позвонить в клинику
+            </a>
+          </div>
+          <p className="notice">{responsePromise}</p>
+        </section>
+
+        <section className="section testimonial card">
+          <p className="eyebrow">Пациентский опыт</p>
+          <blockquote>
+            &quot;В клинике объяснили, зачем нужен каждый этап, дали понятный план по срокам и
+            бюджету, а после лечения пригласили на контроль. Это сняло тревогу и помогло спокойно
+            пройти весь маршрут.&quot;
+          </blockquote>
+          <p className="quote-author">Пациент WHITE provenance, комплексный план лечения</p>
+        </section>
+      </div>
     </SiteShell>
   );
 }
